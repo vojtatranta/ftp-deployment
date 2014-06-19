@@ -16,6 +16,9 @@ the entire process. Just say which local folder where upload to. This
 information is stored in a text file `deployment.ini`, which you can associate
 with script `deployment.php`, so deployment will become a one click thing.
 
+And it is not just about your local project. You can now simply download and git repository
+and sync with your ftp server without having to use ssh.
+
 ```
 php deployment.php deployment.ini
 ```
@@ -33,6 +36,16 @@ passivemode = yes
 
 ; local path (optional)
 local = .
+
+; Optionaly override local config to download and deploy repository from github or bitbucket etc.
+; If repo is private use (HTTP auth) https://<your_username>:<your_password>@<url_to_zip>
+; eg. <url_to_zip> = github.com/jondoe/CodeIgniter/archive/2.2-stable.zip)
+; You need to supply url to zipped repository.
+; example: repository = https://jondoe:jondoepass@github.com/jondoe/CodeIgniter/archive/2.2-stable.zip
+repository = 
+
+; Local folder where are downloaded repo zips stored
+zip_storage = repos
 
 ; run in test-mode? (can be enabled by option -t or --test too)
 test = no
