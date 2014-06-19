@@ -8,32 +8,34 @@
  */
 class GitDownloader {
 
-	/** @var repository URL*/
+	/** repository URL */
 	private $repo;
 
-	/** @var username to get access to repo */
+	/** username to get access to repo */
 	private $username;
 
-	/** @var password to get acces to repo */
+	/** password to get acces to repo */
 	private $password;
 
-	/** @var path to folder, where fetched .zip repos are stored */
+	/** path to folder, where fetched .zip repos are stored */
 	protected $temporary_folder_path = 'repos';
 
-	/** @var if is true, URL schemes are not needed, everything is done using repo zip url **/
+	/** if is true, URL schemes are not needed, everything is done using repo zip url **/
 	public $zip_url = false;
 
-	/** @var url schemes for repo providers */
-	var $url_schemes = array('bitbucket' => array( 'url_scheme' => 'https://bitbucket.org/[username]/[reponame]',
-		                                           'zip_url_scheme' => 'https://[username]:[password]@bitbucket.org/[username]/[reponame]/get/[branch].zip'
-		                                ),
-							 'github' => array('url_scheme' => 'https://github.com/[username]/[reponame]/[branch]',
+	/** url schemes for repo providers */
+	public $url_schemes = array(
+			'bitbucket' => array( 
+								'url_scheme' => 'https://bitbucket.org/[username]/[reponame]',
+			                    'zip_url_scheme' => 'https://[username]:[password]@bitbucket.org/[username]/[reponame]/get/[branch].zip'
+			                    ),
+			 'github' => array(
+			 					'url_scheme' => 'https://github.com/[username]/[reponame]/[branch]',
+							   ),
+			);
 
-							 		),
-							);
 
-
-	/** @var name of deployment.ini sample */
+	/** name of deployment.ini sample */
 	var $deployment_sample = 'deployment_sample.ini';
 
 	/**
@@ -112,14 +114,12 @@ class GitDownloader {
 			$repo_name = $expl[2];
 		}
 
-			$repo = @file_get_contents($repo_folder);
+		$repo = @file_get_contents($repo_folder);
 
-			if ( !$repo )
-			{
-				throw new GitException('Repo could not be found.');
-			}
-
-		
+		if ( !$repo )
+		{
+			throw new GitException('Repository could not be found.');
+		}
 
 		$zip_filename = $branch.'_'.date('Y-m-d-H-i').'.zip';
 
@@ -145,7 +145,7 @@ class GitDownloader {
 
 		if ($err_code = $zip->open($zip_file) !== TRUE)
 		{
-			throw new GitException("Cannot deploy $zip_file. ZipArchive Error code :$err_code - either not a zip file or repo could not be downloaded.");
+			throw new GitException("Cannot deploy $zip_file. ZipArchive Error code: $err_code - either not a zip file or repo could not be downloaded.");
 		}
 
 		if ( !is_dir($extract_to) ) 
